@@ -2,16 +2,6 @@ import React, { useState } from 'react';
 import './JsonGenerator.css';
 import UiGenerator from '../UiGenerator/UiGenerator'
 
-/*
-QUESTIONS
-- What do I need name for in the form items? Can I remove it if they have uuids? ()
-- Should I include these items as well? (multi-select, checkbox)
-
-ToDo
-- Change required from selection to input
-*/
-
-
 
 const initialFormData = {
     formItemType: "",

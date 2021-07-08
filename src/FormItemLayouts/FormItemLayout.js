@@ -2,12 +2,15 @@ import React from 'react';
 import './FormItemLayout.css';
 
 export default function FormItemLayout( data ){
-    const {label, formItemType, itemId, required} = data.data // destructure object into variables
+    const {label, formItemType, itemId, required} = data.data // destructure prop object into variables
 
     const removeItem = id => e => {
-        e.preventDefault();
-        data.remove(id.itemId)
+        e.preventDefault(); // stop page from reloading when button is pressed
+        data.remove(id.itemId) // use function from payloadGen.js to remove this current item
     }
+
+    
+
 
 
     return (
