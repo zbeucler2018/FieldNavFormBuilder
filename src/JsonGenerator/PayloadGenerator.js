@@ -30,7 +30,7 @@ export default function PayloadGenerator({ addPayloadFunction }) {
       updateFormData(initialFormData); // reset the state
       document.getElementsByName("label")[0].value = "";
       document.getElementsByName("formItemType")[0].value = "";
-      document.getElementsByName("required")[0].value = "";
+      document.getElementsByName("required")[0].value = "false";
     }
 
     const removeFromForm = (id) => {
@@ -81,7 +81,6 @@ export default function PayloadGenerator({ addPayloadFunction }) {
           <label>
               <p>Make this section required?</p>
               <select name="required" onChange={handleChange} value={formData.required} >
-                  <option value="">N/A</option>
                   <option value="true">Yes</option>
                   <option value="false">No</option>
               </select>
