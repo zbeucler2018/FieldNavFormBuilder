@@ -1,0 +1,19 @@
+.PayloadSection {
+    width: 40%;
+    float: left;
+    padding: 20px;
+    border: 2px solid red;
+}
+
+.UiSection{
+    width: 53%;
+    float: right;
+    padding: 20px;
+    border: 2px solid green;
+
+}
+
+.main {
+    border: 3px solid #fff;
+    padding: 20px;
+}
