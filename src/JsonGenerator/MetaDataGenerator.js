@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './JsonGenerator.css';
 import PayloadGenerator from './PayloadGenerator';
+import firebase from 'firebase';
+import firestore from '../Firebase/firestoreinit';
 
 
 const initialFormData = {
@@ -17,6 +19,10 @@ export default function MetaDataGenerator() {
     const [formMetaData, setFormMetaData] = useState(initialFormData);
     const [metaDataFinished, setMetaDataFinished] = useState(false);
 
+    useEffect(() => { // wait for the payload to contain items, then send to DB
+        if (formMetaData.Payload.length !== 0) {sendToDB()}
+    })
+
     const handleChange = (e) => {
         setFormMetaData({
             ...formMetaData,
@@ -24,18 +30,28 @@ export default function MetaDataGenerator() {
             CreatedWhen: Date().slice(16,57), // get current system date and timezone
             FormId: Math.random() // get random ID
 
-        })
+        });
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        document.getElementsByName("CreatedBy")[0].value = ""; // clear inputs
+        document.getElementsByName("Company")[0].value = "";
         setMetaDataFinished(true);
     }
 
+    const sendToDB = () => {
+        const db = firebase.firestore(); // init the db
+        const formRef = db.collection("Forms").add({ // add formMetaData to the "Forms" collection in firebase
+            formMetaData
+        });
+
+        restartForm(); // clear the state form
+    }
+
     const restartForm = () => {
-        document.getElementsByName("CreatedBy")[0].value = ""; // clear inputs
-        document.getElementsByName("Company")[0].value = "";
         setMetaDataFinished(false); // Go back to beginning screen
+        setFormMetaData(initialFormData); // clear the form data
     }
 
     const addPayload = (payload) => {
@@ -46,10 +62,10 @@ export default function MetaDataGenerator() {
                 Payload: [...payload]
             }
         });
-        alert("Form Submitted!")
-        restartForm();
-
+        alert("Form Submitted!");
     }
+
+
 
 
     return (
@@ -73,15 +89,18 @@ export default function MetaDataGenerator() {
                         <span style={{paddingLeft: "20px", float:"right"}}>Date: {formMetaData.CreatedWhen}</span>
                     </div>
 
-                    <PayloadGenerator addPayloadFunction={addPayload} />
+                    <PayloadGenerator addPayloadFunction={addPayload} sendToDB={sendToDB}/>
                 </>
 
             }
             <br /><br />
+            <div style={{paddingTop:"50vh", display:"none"}}>
+                <pre>{JSON.stringify(formMetaData, null, 4)}</pre> 
+            </div>
+
+            
         </div>
 
         </>
     )
 }
-
-/*            <pre>{JSON.stringify(formMetaData, null, 4)}</pre>  */

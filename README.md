@@ -25,3 +25,13 @@
 - `git add .`
 - `git commit -m "message"`
 - `git push -u origin HEAD`
+
+# NPM libraries
+- `npm i firebase`
+
+# Notes
+```javascript
+useEffect(() => {
+   //your code
+}, [data]);
+```

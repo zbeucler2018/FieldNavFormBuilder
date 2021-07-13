@@ -78,7 +78,20 @@ export default function FormItemLayout( data ){
     
                     <button onClick={removeItem({itemId})}>Remove Item</button>
                 </div>
-            );                
+            );
+            
+        default:
+            return (
+                <div className="ItemLayout default">
+                    <h3>{label}</h3>
+                    <h3>UnKnown item selected</h3>
+                    <p>Type: {formItemType}</p>
+                    <p>Required: {required}</p>
+    
+                    <button onClick={removeItem({itemId})}>Remove Item</button>
+                </div>
+            );
+
 
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './JsonGenerator.css';
 import UiGenerator from '../UiGenerator/UiGenerator'
 
@@ -11,8 +11,7 @@ const initialFormData = {
     required: ""
 }
 
-
-export default function PayloadGenerator({ addPayloadFunction }) {
+export default function PayloadGenerator( data ) {
     const [formData, updateFormData] = useState(initialFormData); // 
     const [entireFormArray, updateEntireFormArray] = useState([]); // this becomes the payload array
 
@@ -49,9 +48,11 @@ export default function PayloadGenerator({ addPayloadFunction }) {
       updateEntireFormArray([]); // update the state to an empty array
     }
 
+
+
     const submitForm = (e) => {
       e.preventDefault();
-      addPayloadFunction(entireFormArray); // adds payload to metadata JSON field
+      data.addPayloadFunction(entireFormArray); // adds payload to metadata JSON field
     }
 
   
