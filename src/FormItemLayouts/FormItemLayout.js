@@ -72,7 +72,7 @@ export default function FormItemLayout( data ){
             return (
                 <div className="ItemLayout map">
                     <h3>{label}</h3>
-                    <h3>Map element here</h3>
+                    <h3>Map element here (use JS SDK)</h3>
                     <p>Type: {formItemType}</p>
                     <p>Required: {required}</p>
     

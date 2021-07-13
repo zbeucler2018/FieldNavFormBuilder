@@ -21,8 +21,8 @@ export default function MetaDataGenerator() {
         setFormMetaData({
             ...formMetaData,
             [e.target.name]: e.target.value,
-            CreatedWhen: Date().slice(16,57),
-            FormId: Math.random()
+            CreatedWhen: Date().slice(16,57), // get current system date and timezone
+            FormId: Math.random() // get random ID
 
         })
     }
@@ -32,6 +32,12 @@ export default function MetaDataGenerator() {
         setMetaDataFinished(true);
     }
 
+    const restartForm = () => {
+        document.getElementsByName("CreatedBy")[0].value = ""; // clear inputs
+        document.getElementsByName("Company")[0].value = "";
+        setMetaDataFinished(false); // Go back to beginning screen
+    }
+
     const addPayload = (payload) => {
         // add payload to meta data
         setFormMetaData( (data) => {
@@ -39,7 +45,10 @@ export default function MetaDataGenerator() {
                 ...data, 
                 Payload: [...payload]
             }
-        })
+        });
+        alert("Form Submitted!")
+        restartForm();
+
     }
 
 

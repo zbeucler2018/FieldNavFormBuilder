@@ -13,14 +13,13 @@ const initialFormData = {
 
 
 export default function PayloadGenerator({ addPayloadFunction }) {
-    const [formData, updateFormData] = useState(initialFormData);
-    const [entireFormArray, updateEntireFormArray] = useState([]); // keep adding form items to this array
+    const [formData, updateFormData] = useState(initialFormData); // 
+    const [entireFormArray, updateEntireFormArray] = useState([]); // this becomes the payload array
 
     const handleChange = (e) => {
         updateFormData({
             ...formData,
-            // set the key as name of HTML element and the value as of the HTML element
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value, // set the key as name of HTML element and the value as of the HTML element
             itemId: Math.random() // give form item unique ID
         });
     };
@@ -30,7 +29,7 @@ export default function PayloadGenerator({ addPayloadFunction }) {
       updateFormData(initialFormData); // reset the state
       document.getElementsByName("label")[0].value = "";
       document.getElementsByName("formItemType")[0].value = "";
-      document.getElementsByName("required")[0].value = "false";
+      document.getElementsByName("required")[0].value = "";
     }
 
     const removeFromForm = (id) => {
@@ -41,19 +40,18 @@ export default function PayloadGenerator({ addPayloadFunction }) {
   
     const addToForm = (e) => {
       e.preventDefault();
-      // append new form item to entireFormArray with updateEntireFormArray
-      updateEntireFormArray(entireFormArray => [...entireFormArray, formData]);
+      updateEntireFormArray(entireFormArray => [...entireFormArray, formData]); // append new form item to entireFormArray with updateEntireFormArray
       cleanup(); // clear formdata and inputs
     };
 
     const resetForm = (e) => {
       e.preventDefault();
-      updateEntireFormArray([]);
+      updateEntireFormArray([]); // update the state to an empty array
     }
 
     const submitForm = (e) => {
       e.preventDefault();
-      addPayloadFunction(entireFormArray)
+      addPayloadFunction(entireFormArray); // adds payload to metadata JSON field
     }
 
   
@@ -81,6 +79,7 @@ export default function PayloadGenerator({ addPayloadFunction }) {
           <label>
               <p>Make this section required?</p>
               <select name="required" onChange={handleChange} value={formData.required} >
+                  <option value="">N/A</option>
                   <option value="true">Yes</option>
                   <option value="false">No</option>
               </select>
