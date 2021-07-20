@@ -48,8 +48,6 @@ export default function PayloadGenerator( data ) {
       updateEntireFormArray([]); // update the state to an empty array
     }
 
-
-
     const submitForm = (e) => {
       e.preventDefault();
       data.addPayloadFunction(entireFormArray); // adds payload to metadata JSON field

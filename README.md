@@ -10,10 +10,10 @@
 - change dropdownsingle from just text area to multiple text inputs 
 
 # Current Components
-- <MetaDataGenerator />
-- <PayloadGenerator />
-- <UiGenerator />
-- <FormItemLayout />
+- `<MetaDataGenerator />`
+- `<PayloadGenerator />`
+- `<UiGenerator />`
+- `<FormItemLayout />`
 
 # Git Notes
 - `Development` branch is for developing

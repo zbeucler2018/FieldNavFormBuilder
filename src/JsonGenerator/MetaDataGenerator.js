@@ -7,9 +7,11 @@ import firestore from '../Firebase/firestoreinit';
 
 const initialFormData = {
     FormId: 0,
+    FormTitle: "",
     Company: "",
     CreatedBy: "",
-    CreatedWhen: "",
+    CreationDate: "",
+    CreationTime: "",
     LastModified: "",
     LastModifiedBy: "",
     Payload: []
@@ -27,7 +29,8 @@ export default function MetaDataGenerator() {
         setFormMetaData({
             ...formMetaData,
             [e.target.name]: e.target.value,
-            CreatedWhen: Date().slice(16,57), // get current system date and timezone
+            CreationDate: new Date().toISOString().split("T")[0].replaceAll("-", "/"), // get current system date
+            CreationTime: Date().slice(16,57), // get current system time
             FormId: Math.random() // get random ID
 
         });
@@ -77,6 +80,8 @@ export default function MetaDataGenerator() {
                     <input name="CreatedBy" onChange={handleChange} value={formMetaData.CreatedBy} />
                     <p>Enter Your Company here:</p>
                     <input name="Company" onChange={handleChange} value={formMetaData.Company} />
+                    <p>Enter the title of the form here:</p>
+                    <input name="FormTitle" onChange={handleChange} value={formMetaData.FormTitle} />
 
                     <button onClick={handleSubmit}>Next</button>
                 </>
@@ -86,7 +91,7 @@ export default function MetaDataGenerator() {
                 <>
                     <div>
                         <span style={{paddingLeft: "20px", float:"left"}}>Created By: {formMetaData.CreatedBy} at {formMetaData.Company}</span>
-                        <span style={{paddingLeft: "20px", float:"right"}}>Date: {formMetaData.CreatedWhen}</span>
+                        <span style={{paddingLeft: "20px", float:"right"}}>Date: {formMetaData.CreationDate}{" "}{formMetaData.CreationTime}</span>
                     </div>
 
                     <PayloadGenerator addPayloadFunction={addPayload} sendToDB={sendToDB}/>
