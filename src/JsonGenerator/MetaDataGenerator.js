@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './JsonGenerator.css';
+//import './JsonGenerator.css';
+import './loginPage.css';
 import PayloadGenerator from './PayloadGenerator';
 import firebase from 'firebase';
 import firestore from '../Firebase/firestoreinit';
@@ -32,7 +33,6 @@ export default function MetaDataGenerator() {
             CreationDate: new Date().toISOString().split("T")[0].replaceAll("-", "/"), // get current system date
             CreationTime: Date().slice(16,57), // get current system time
             FormId: Math.random() // get random ID
-
         });
     }
 
@@ -76,25 +76,29 @@ export default function MetaDataGenerator() {
         <div>
             { !metaDataFinished &&
                 <>
-                    <p>Enter your name here:</p>
-                    <input name="CreatedBy" onChange={handleChange} value={formMetaData.CreatedBy} />
-                    <p>Enter Your Company here:</p>
-                    <input name="Company" onChange={handleChange} value={formMetaData.Company} />
-                    <p>Enter the title of the form here:</p>
-                    <input name="FormTitle" onChange={handleChange} value={formMetaData.FormTitle} />
+                    <div className="container">
+                        <h1>FieldNav Form Builder</h1>
+                        <div className="logins">
+                            <input name="CreatedBy" onChange={handleChange} placeholder="Enter your name here" value={formMetaData.CreatedBy} className="field" />
+                            <input name="Company" onChange={handleChange} placeholder="Enter Your Company here" value={formMetaData.Company} className="field" />
+                            <input name="FormTitle" onChange={handleChange} placeholder="Enter the title of the form here" value={formMetaData.FormTitle} className="field" />
+                            <input type="button" onClick={handleSubmit} value="Next" className="fieldBtn" />
+                        </div>
 
-                    <button onClick={handleSubmit}>Next</button>
+                    </div>
+
                 </>
             }
 
             { metaDataFinished &&
                 <>
-                    <div>
-                        <span style={{paddingLeft: "20px", float:"left"}}>Created By: {formMetaData.CreatedBy} at {formMetaData.Company}</span>
-                        <span style={{paddingLeft: "20px", float:"right"}}>Date: {formMetaData.CreationDate}{" "}{formMetaData.CreationTime}</span>
-                    </div>
-
-                    <PayloadGenerator addPayloadFunction={addPayload} sendToDB={sendToDB}/>
+                    <PayloadGenerator 
+                        addPayloadFunction={addPayload} 
+                        sendToDB={sendToDB} 
+                        formTitle={formMetaData.FormTitle} 
+                        author={formMetaData.CreatedBy} 
+                        company={formMetaData.Company}
+                    />
                 </>
 
             }
@@ -109,3 +113,25 @@ export default function MetaDataGenerator() {
         </>
     )
 }
+
+
+
+/*
+
+
+
+                <>
+                    <div className="container">
+                        <p>Enter your name here:</p>
+                        <input name="CreatedBy" onChange={handleChange} value={formMetaData.CreatedBy} />
+                        <p>Enter Your Company here:</p>
+                        <input name="Company" onChange={handleChange} value={formMetaData.Company} />
+                        <p>Enter the title of the form here:</p>
+                        <input name="FormTitle" onChange={handleChange} value={formMetaData.FormTitle} />
+
+                        <button onClick={handleSubmit}>Next</button>
+                    </div>
+
+                </>
+
+*/

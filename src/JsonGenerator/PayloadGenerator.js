@@ -58,12 +58,12 @@ export default function PayloadGenerator( data ) {
       <div className="main">
         <div className="PayloadSection">
           <label>
-            <p>Section Heading</p>
-            <input name="label" type="text" value={formData.label} onChange={handleChange} />
+            <h3>Section Heading</h3>
+            <input name="label" type="text" value={formData.label} onChange={handleChange} placeholder="Enter Heading Here" className="payloadGenUI"/>
           </label>
           <br />
           <label>
-            <p>Section Type</p>
+            <h3>Section Type</h3>
             <select name="formItemType" onChange={handleChange} value={formData.formItemType} >
                 <option value="">N/A</option>
                 <option value="lgText">Large Text Box</option>
@@ -75,8 +75,18 @@ export default function PayloadGenerator( data ) {
             </select>
           </label>
 
+          {
+              formData.formItemType === "dropDownSingle" &&
+              <div className="dropDownSection">
+                  <label>
+                      <h4>What items would you like to add to the drop down? (please seperate them with a '<b>:</b>')</h4>
+                      <textarea name="items" value={formData.items} onChange={handleChange} />
+                  </label>
+              </div>
+          }
+
           <label>
-              <p>Make this section required?</p>
+              <h3>Make this section required?</h3>
               <select name="required" onChange={handleChange} value={formData.required} >
                   <option value="">N/A</option>
                   <option value="true">Yes</option>
@@ -86,26 +96,21 @@ export default function PayloadGenerator( data ) {
 
           <br />
 
-          {
-              formData.formItemType === "dropDownSingle" &&
-              <>
-                  <label>
-                      What items would you like to add to the drop down? (please seperate them with a '<b>:</b>') <br />
-                      <textarea name="items" value={formData.items} onChange={handleChange} />
-                  </label>
-              </>
-          }
 
-          <br />
-          <button onClick={addToForm}>Add to Form</button>
-          <button onClick={resetForm}>Clear Form</button>
-          <button onClick={submitForm}>Finish Form</button>
-          <br />
-          <hr />        
+          
+          <button onClick={addToForm} style={{marginLeft: 0}} className="payloadBtn">Add to Form</button>
+          <button onClick={resetForm} className="payloadBtn">Clear Form</button>
+          <button onClick={submitForm} className="payloadBtn">Finish Form</button>
         </div>
         
         <div className="UiSection">
-          <UiGenerator data={entireFormArray} remove={removeFromForm}/>
+          <UiGenerator 
+            data={entireFormArray} 
+            remove={removeFromForm} 
+            formTitle={data.formTitle}
+            author={data.author}
+            company={data.company}
+          />
         </div>
 
       </div>
