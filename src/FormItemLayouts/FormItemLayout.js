@@ -32,19 +32,62 @@ export default function FormItemLayout( data ){
                 <button onClick={removeItem({itemId})}>Remove Item</button>
             </div>
         );
-        case "dropDownSingle":
+        case "radioBtnGroup":
             // make 'items' into a list
             // const items = data.data.items
             return (
-                <div className="ItemLayout dropDownSingle">
+                <div className="ItemLayout radioBtnGroup">
                     <h3>{label}</h3>
-                    <h3>DropDownSingle</h3>
-                    <p>Type: Drop down (Single Select)</p>
+                    <div>
+                        <form>
+                        {
+                            ( data.data.items !== undefined && data.data.items.length > 0 ) ? data.data.items.map( (item, index) => {
+                                return  (
+                                    <div key={Math.random()}>
+                                        <label htmlFor={index+item}>{item}</label>
+                                        <input type="radio" name="radioBtn" id={index+item} value={item}/>
+                                    </div>
+
+                                )
+                                }) : <p>Error loading items. Please delete this section and try again.</p>
+                        }
+                        </form>
+                    </div>
+                    <hr />
+                    <p>Type: Radio Button Group</p>
                     <p>Required: {required}</p>
-    
+
                     <button onClick={removeItem({itemId})}>Remove Item</button>
                 </div>
             );
+
+        case "checkboxGroup":
+            return (
+                <div className="ItemLayout checkboxGroup">
+                <h3>{label}</h3>
+                <div>
+                    <form>
+                    {
+                        ( data.data.items !== undefined && data.data.items.length > 0 ) ? data.data.items.map( (item, index) => {
+                            return  (
+                                <div key={Math.random()}>
+                                    <input type="checkbox" name="checkbox" id={index+item} value={item}/>
+                                    <label htmlFor={index+item}>{item}</label>
+                                </div>
+
+                            )
+                            }) : <p>Error loading items. Please delete this section and try again.</p>
+                    }
+                    </form>
+                </div>
+                <hr />
+                <p>Type: Radio Button Group</p>
+                <p>Required: {required}</p>
+
+                <button onClick={removeItem({itemId})}>Remove Item</button>
+            </div>
+            )
+        
         case "date":
             return (
                 <div className="ItemLayout date">

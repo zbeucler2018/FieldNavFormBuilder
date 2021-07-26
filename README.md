@@ -35,3 +35,8 @@ useEffect(() => {
    //your code
 }, [data]);
 ```
+
+
+# ToDo
+- [ ] validation and requirements
+- [ x ] fix css on payload btns

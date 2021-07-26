@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 //import './JsonGenerator.css';
 import './loginPage.css';
+import PayloadGeneratorC from './PayloadGeneratorClass';
 import PayloadGenerator from './PayloadGenerator';
+
 import firebase from 'firebase';
 import firestore from '../Firebase/firestoreinit';
+
 
 
 const initialFormData = {
@@ -79,9 +82,28 @@ export default function MetaDataGenerator() {
                     <div className="container">
                         <h1>FieldNav Form Builder</h1>
                         <div className="logins">
-                            <input name="CreatedBy" onChange={handleChange} placeholder="Enter your name here" value={formMetaData.CreatedBy} className="field" />
-                            <input name="Company" onChange={handleChange} placeholder="Enter Your Company here" value={formMetaData.Company} className="field" />
-                            <input name="FormTitle" onChange={handleChange} placeholder="Enter the title of the form here" value={formMetaData.FormTitle} className="field" />
+                            <input 
+                                name="CreatedBy" 
+                                onChange={handleChange} 
+                                placeholder="Enter your name here" 
+                                value={formMetaData.CreatedBy} 
+                                className="field" 
+                            />
+                            <input 
+                                name="Company" 
+                                onChange={handleChange} 
+                                placeholder="Enter Your Company here" 
+                                value={formMetaData.Company} 
+                                className="field" 
+                            />
+                            <input 
+                                name="FormTitle" 
+                                onChange={handleChange} 
+                                placeholder="Enter the title of the form here" 
+                                value={formMetaData.FormTitle} 
+                                className="field" 
+                            />
+
                             <input type="button" onClick={handleSubmit} value="Next" className="fieldBtn" />
                         </div>
 
@@ -92,7 +114,7 @@ export default function MetaDataGenerator() {
 
             { metaDataFinished &&
                 <>
-                    <PayloadGenerator 
+                    <PayloadGeneratorC 
                         addPayloadFunction={addPayload} 
                         sendToDB={sendToDB} 
                         formTitle={formMetaData.FormTitle} 
@@ -113,25 +135,3 @@ export default function MetaDataGenerator() {
         </>
     )
 }
-
-
-
-/*
-
-
-
-                <>
-                    <div className="container">
-                        <p>Enter your name here:</p>
-                        <input name="CreatedBy" onChange={handleChange} value={formMetaData.CreatedBy} />
-                        <p>Enter Your Company here:</p>
-                        <input name="Company" onChange={handleChange} value={formMetaData.Company} />
-                        <p>Enter the title of the form here:</p>
-                        <input name="FormTitle" onChange={handleChange} value={formMetaData.FormTitle} />
-
-                        <button onClick={handleSubmit}>Next</button>
-                    </div>
-
-                </>
-
-*/

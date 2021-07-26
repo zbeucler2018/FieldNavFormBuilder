@@ -55,6 +55,6 @@ input.payloadGenUI {
     transition: border .2s, background-color .2s;
 }
 
-.dropDownSection {
+.btnGroupSection {
     margin-top: 20px;
 }

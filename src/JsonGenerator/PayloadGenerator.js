@@ -12,24 +12,63 @@ const initialFormData = {
 }
 
 export default function PayloadGenerator( data ) {
-    const [formData, updateFormData] = useState(initialFormData); // 
+    const [formData, updateFormData] = useState(initialFormData);
     const [entireFormArray, updateEntireFormArray] = useState([]); // this becomes the payload array
+    const [itemCollection, setItemCollection] = useState([]); // drop down item selection array
+    const [item, setItem] = useState(""); // drop down item state
+
+
 
     const handleChange = (e) => {
+      if (e.target.name === "radioBtnItem") {
+        setItem(e.target.value)
+      } else {
         updateFormData({
-            ...formData,
-            [e.target.name]: e.target.value, // set the key as name of HTML element and the value as of the HTML element
-            itemId: Math.random() // give form item unique ID
-        });
+          ...formData,
+          [e.target.name]: e.target.value, // set the key as name of HTML element and the value as of the HTML element
+          itemId: Math.random() // give form item unique ID
+      });
+      }
     };
 
     const cleanup = () => {
       // clear the form data state 
       updateFormData(initialFormData); // reset the state
+      setItem("");
+      setItemCollection([]);
       document.getElementsByName("label")[0].value = "";
       document.getElementsByName("formItemType")[0].value = "";
       document.getElementsByName("required")[0].value = "";
     }
+
+    const removeDropDownItem = (e, index) => {
+      e.preventDefault();
+      const newArr = [...itemCollection]; // copy state array
+      if (index > -1) {
+        newArr.splice(index, 1); // remove item by index
+      }
+      setItemCollection(newArr); // update state array
+    };
+
+    const handleItemClick = (e) => {
+      e.preventDefault();
+      console.log(`old state array: ${JSON.stringify(itemCollection)}`)
+      // add item to itemCollection
+      let newArr = [...itemCollection, item]
+      console.log(`array to replace old state array: ${newArr}`)
+      setItemCollection(newArr);
+      console.log(`new state array: ${JSON.stringify(itemCollection)}`)
+      
+      // clear input
+      setItem("");
+      // create new obj
+      let newFormOBJ = {...formData}
+      newFormOBJ.items = [...newArr] // add items field to new obj
+      //console.log(JSON.stringify(newFormOBJ.items));
+      //console.log(`old form: ${JSON.stringify(formData)}`);
+      updateFormData(newFormOBJ);
+      console.log(`new form: ${JSON.stringify(formData)}`);
+    };
 
     const removeFromForm = (id) => {
       var newEntireFormArray = [...entireFormArray]; //create a new array so we dont modify state directly
@@ -59,7 +98,14 @@ export default function PayloadGenerator( data ) {
         <div className="PayloadSection">
           <label>
             <h3>Section Heading</h3>
-            <input name="label" type="text" value={formData.label} onChange={handleChange} placeholder="Enter Heading Here" className="payloadGenUI"/>
+            <input 
+              name="label" 
+              type="text" 
+              value={formData.label} 
+              onChange={handleChange} 
+              placeholder="Enter Heading Here" 
+              className="payloadGenUI"
+            />
           </label>
           <br />
           <label>
@@ -78,10 +124,24 @@ export default function PayloadGenerator( data ) {
           {
               formData.formItemType === "dropDownSingle" &&
               <div className="dropDownSection">
-                  <label>
-                      <h4>What items would you like to add to the drop down? (please seperate them with a '<b>:</b>')</h4>
-                      <textarea name="items" value={formData.items} onChange={handleChange} />
-                  </label>
+                      <h4>What items would you like to add to the drop down?</h4>
+                      <input id="item" type="text" name="radioBtnItem" value={item} onChange={handleChange} />
+                      <button onClick={handleItemClick}> click </button>
+
+                      {
+                        itemCollection.length > 0 || itemCollection !== undefined ? (
+                          itemCollection.map((ele, index) => {
+                            return (
+                              <div style={{display: "flex"}} key={Math.random()}>
+                                <p style={{margin: 8}}> {ele} </p>
+                                <button onClick={(event) => removeDropDownItem(event, index)}> x </button>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <p>No items yet</p>
+                        )
+                      }
               </div>
           }
 
