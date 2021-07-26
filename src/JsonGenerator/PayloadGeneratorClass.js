@@ -17,23 +17,20 @@ class PayloadGeneratorC extends React.Component {
             formData: initialFormData,
             entireFormArray: [],
             btnGroupArray: [],
-            btnItem: ""
+            btnItem: "",
+            inputType: "text"
         }
     }
 
     handleChange = (e) => {
         e.preventDefault();
-        if (e.target.name === "btnGroupInput") {
-            this.setState({ btnItem: e.target.value })
-        } else {
-            this.setState( prevState => ({
-                formData: {
-                    ...prevState.formData,
-                    [e.target.name]: e.target.value, // set the key as name of HTML element and the value as of the HTML element
-                    itemId: Math.random() // give form item unique ID
-                }
-            }))
-        }
+        this.setState( prevState => ({
+            formData: {
+                ...prevState.formData,
+                [e.target.name]: e.target.value, // set the key as name of HTML element and the value as of the HTML element
+                itemId: Math.random() // give form item unique ID
+            }
+        }))
     }
 
     cleanup = () => {
@@ -52,8 +49,6 @@ class PayloadGeneratorC extends React.Component {
     handleButtonChange = (e) => {
         e.preventDefault();
         this.setState({ btnItem: e.target.value })
-
-
     }
     handleButtonClick = (e) => {
         e.preventDefault();
@@ -77,37 +72,54 @@ class PayloadGeneratorC extends React.Component {
         this.setState({ btnGroupArray: newArr }) // upddate state array
     }
 
+    loginValidation = () => {
+        // if the title, selection, or required is "" then cannot continue
+        if (this.state.formData.label === "" || this.state.formData.formItemType === "" || this.state.formData.required === ""){
+            return false
+        } else {
+            return true
+        }
+
+    }
 
 
 
 
-     removeFromForm = (id) => {
+
+    removeFromForm = (id) => {
          var newEntireFormArray = [...this.state.entireFormArray]; //create a new array so we dont modify state directly
          newEntireFormArray = newEntireFormArray.filter(x => x.itemId !== id); // filter array so we dont have the deleted item
          this.setState({
             entireFormArray: newEntireFormArray
          })
-      }
-    
+    } 
     addToForm = (e) => {
         e.preventDefault();
-        var newEntireFormArray = [...this.state.entireFormArray, this.state.formData] // add form data to end of payload
-        this.setState({
-            entireFormArray: newEntireFormArray
-         })
-        this.cleanup(); // clear formdata and inputs
+        const validation = this.loginValidation();
+        if (validation) {
+            var newEntireFormArray = [...this.state.entireFormArray, this.state.formData] // add form data to end of payload
+            this.setState({ entireFormArray: newEntireFormArray })
+            this.cleanup(); // clear formdata and inputs
+        } else {
+            alert("Please fill in all fields (Section Heading, Section Type, and the required section)")
+        }
+
     };
-  
     resetForm = (e) => {
         e.preventDefault();
         this.setState({
             entireFormArray: []
         })      
     }
-  
     submitForm = (e) => {
         e.preventDefault();
-        this.props.addPayloadFunction(this.state.entireFormArray);
+        if (this.state.entireFormArray.length > 0) {
+            this.props.addPayloadFunction(this.state.entireFormArray);
+        }
+        else {
+            alert("Please add an item to the form before submitting")
+        }
+        
     }
 
 
@@ -133,7 +145,8 @@ class PayloadGeneratorC extends React.Component {
                             <select name="formItemType" onChange={this.handleChange} value={this.state.formData.formItemType} >
                                 <option value="">N/A</option>
                                 <option value="lgText">Large Text Box</option>
-                                <option value="text">Small Text Box</option>
+                                <option value="text">Small Text Box (AlphaNumerical)</option>
+                                <option value="number">Small Text Box (Numerical)</option>
                                 <option value="radioBtnGroup">Radio Button Group</option>
                                 <option value="checkboxGroup">Checkbox Group</option>
                                 <option value="date">Date Selection</option>
@@ -163,6 +176,7 @@ class PayloadGeneratorC extends React.Component {
                                     }
                                 </div>
                         }
+
                         <div>
                             <label>
                                 <h3>Make this section required?</h3>

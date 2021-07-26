@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 //import './JsonGenerator.css';
 import './loginPage.css';
 import PayloadGeneratorC from './PayloadGeneratorClass';
-import PayloadGenerator from './PayloadGenerator';
+//import PayloadGenerator from './PayloadGenerator'; no longer in use
 
 import firebase from 'firebase';
 import firestore from '../Firebase/firestoreinit';
@@ -41,9 +41,24 @@ export default function MetaDataGenerator() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        document.getElementsByName("CreatedBy")[0].value = ""; // clear inputs
-        document.getElementsByName("Company")[0].value = "";
-        setMetaDataFinished(true);
+        const validation = loginValidation();
+        if (validation) {
+            document.getElementsByName("CreatedBy")[0].value = ""; // clear inputs
+            document.getElementsByName("Company")[0].value = "";
+            document.getElementsByName("FormTitle")[0].value = "";
+            setMetaDataFinished(true);
+        } else {
+            alert("Please Complete all fields below")
+        }
+
+    }
+
+    const loginValidation = () => {
+        if (document.getElementsByName("CreatedBy")[0].value === "" || document.getElementsByName("Company")[0].value === "" || document.getElementsByName("FormTitle")[0].value === "") {
+            return false
+        } else {
+            return true
+        }
     }
 
     const sendToDB = () => {

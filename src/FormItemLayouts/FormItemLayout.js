@@ -26,12 +26,27 @@ export default function FormItemLayout( data ){
             <div className="ItemLayout text">
                 <h3>{label}</h3>
                 <input type="text" />
-                <p>Type: Small Text Box</p>
+                <hr />
+                <p>Type: Small Text Box (AlphaNumerical)</p>
                 <p>Required: {required}</p>
     
                 <button onClick={removeItem({itemId})}>Remove Item</button>
             </div>
         );
+        case "number":
+            return (
+                <div className="ItemLayout text">
+                    <h3>{label}</h3>
+                    <input type="text" />
+                    <hr />
+                    <p>Type: Small Text Box (Numerical)</p>
+                    <p>Required: {required}</p>
+    
+                    <button onClick={removeItem({itemId})}>Remove Item</button>
+                    
+                </div>
+            )
+
         case "radioBtnGroup":
             // make 'items' into a list
             // const items = data.data.items
@@ -44,8 +59,8 @@ export default function FormItemLayout( data ){
                             ( data.data.items !== undefined && data.data.items.length > 0 ) ? data.data.items.map( (item, index) => {
                                 return  (
                                     <div key={Math.random()}>
-                                        <label htmlFor={index+item}>{item}</label>
                                         <input type="radio" name="radioBtn" id={index+item} value={item}/>
+                                        <label htmlFor={index+item}>{item}</label>
                                     </div>
 
                                 )

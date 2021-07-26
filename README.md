@@ -38,5 +38,5 @@ useEffect(() => {
 
 
 # ToDo
-- [ ] validation and requirements
+- [ x ] basic validation and requirements
 - [ x ] fix css on payload btns
