@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './JsonGenerator.css';
-import UiGenerator from '../UiGenerator/UiGenerator'
+import UiGenerator from '../src/UiGenerator/UiGenerator'
 
 
 const initialFormData = {
