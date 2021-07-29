@@ -1,24 +1,37 @@
 import React from 'react';
 import './FormItemLayout.css';
 
-export default function FormItemLayout( data ){
-    const {label, formItemType, itemId, required} = data.data // destructure prop object into variables
-
-    const removeItem = id => e => {
-        e.preventDefault(); // stop page from reloading when button is pressed
-        data.remove(id.itemId) // use function from payloadGen.js to remove this current item
+class FormItemLayout extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            showProperties: false
+        }
     }
 
-    switch(formItemType){
-        case "lgText": 
+    removeItem = id => e => {
+        e.preventDefault();
+        this.props.remove(id.itemId)
+    }
+
+    render() {
+        const {label, formItemType, itemId, required} = this.props.data // destructure prop object into variables
+        switch (formItemType) {
+            case "lgText": 
             return (
                 <div className="ItemLayout lgText">
                     <h3>{label}</h3>
                     <textarea />
-                    <p>Type: Large Text Box</p>
-                    <p>Required: {required}</p>
+                    <br />
         
-                    <button onClick={removeItem({itemId})}>Remove Item</button>
+                    <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                    <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                    <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: Large Text Box (AlphaNumerical)</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div> 
                 </div>
             );
         case "text": 
@@ -26,11 +39,16 @@ export default function FormItemLayout( data ){
             <div className="ItemLayout text">
                 <h3>{label}</h3>
                 <input type="text" />
-                <hr />
-                <p>Type: Small Text Box (AlphaNumerical)</p>
-                <p>Required: {required}</p>
-    
-                <button onClick={removeItem({itemId})}>Remove Item</button>
+                <br />
+                  
+                <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                    <hr />
+                    <p>Type: Small Text Box (AlphaNumerical)</p>
+                    <p>Required: {required}</p>
+                    <p>ID: {itemId}</p>
+                </div>  
             </div>
         );
         case "number":
@@ -38,25 +56,27 @@ export default function FormItemLayout( data ){
                 <div className="ItemLayout text">
                     <h3>{label}</h3>
                     <input type="text" />
-                    <hr />
-                    <p>Type: Small Text Box (Numerical)</p>
-                    <p>Required: {required}</p>
-    
-                    <button onClick={removeItem({itemId})}>Remove Item</button>
-                    
+                    <br />
+
+                    <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                    <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                    <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: Small Text Box (Numerical)</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div>
                 </div>
             )
 
         case "radioBtnGroup":
-            // make 'items' into a list
-            // const items = data.data.items
             return (
                 <div className="ItemLayout radioBtnGroup">
                     <h3>{label}</h3>
                     <div>
                         <form>
                         {
-                            ( data.data.items !== undefined && data.data.items.length > 0 ) ? data.data.items.map( (item, index) => {
+                            ( this.props.data.items !== undefined && this.props.data.items.length > 0 ) ? this.props.data.items.map( (item, index) => {
                                 return  (
                                     <div key={Math.random()}>
                                         <input type="radio" name="radioBtn" id={index+item} value={item}/>
@@ -68,11 +88,15 @@ export default function FormItemLayout( data ){
                         }
                         </form>
                     </div>
-                    <hr />
-                    <p>Type: Radio Button Group</p>
-                    <p>Required: {required}</p>
 
-                    <button onClick={removeItem({itemId})}>Remove Item</button>
+                    <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                    <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                    <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: {formItemType}</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div>
                 </div>
             );
 
@@ -83,7 +107,7 @@ export default function FormItemLayout( data ){
                 <div>
                     <form>
                     {
-                        ( data.data.items !== undefined && data.data.items.length > 0 ) ? data.data.items.map( (item, index) => {
+                        ( this.props.data.items !== undefined && this.props.data.items.length > 0 ) ? this.props.data.items.map( (item, index) => {
                             return  (
                                 <div key={Math.random()}>
                                     <input type="checkbox" name="checkbox" id={index+item} value={item}/>
@@ -95,11 +119,14 @@ export default function FormItemLayout( data ){
                     }
                     </form>
                 </div>
-                <hr />
-                <p>Type: Radio Button Group</p>
-                <p>Required: {required}</p>
-
-                <button onClick={removeItem({itemId})}>Remove Item</button>
+                <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: {formItemType}</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div>
             </div>
             )
         
@@ -108,10 +135,17 @@ export default function FormItemLayout( data ){
                 <div className="ItemLayout date">
                     <h3>{label}</h3>
                     <input type="date" />
-                    <p>Type: Date Selection</p>
-                    <p>Required: {required}</p>
+                    <br />
     
-                    <button onClick={removeItem({itemId})}>Remove Item</button>
+                    <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                    <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                   
+                    <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: {formItemType}</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div>
                 </div>
             );
 
@@ -120,10 +154,17 @@ export default function FormItemLayout( data ){
                 <div className="ItemLayout map">
                     <h3>{label}</h3>
                     <input type="file" />
-                    <p>Type: {formItemType}</p>
-                    <p>Required: {required}</p>
+                    <br />
 
-                    <button onClick={removeItem({itemId})}>Remove Item</button>
+                    <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                    <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+
+                    <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: {formItemType}</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div>
                 </div>
             );
         case "map":
@@ -131,10 +172,16 @@ export default function FormItemLayout( data ){
                 <div className="ItemLayout map">
                     <h3>{label}</h3>
                     <h3>Map element here (use JS SDK)</h3>
-                    <p>Type: {formItemType}</p>
-                    <p>Required: {required}</p>
-    
-                    <button onClick={removeItem({itemId})}>Remove Item</button>
+
+                    <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                    <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                    
+                    <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: {formItemType}</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div>
                 </div>
             );
             
@@ -143,18 +190,23 @@ export default function FormItemLayout( data ){
                 <div className="ItemLayout default">
                     <h3>{label}</h3>
                     <h3>UnKnown item selected</h3>
-                    <p>Type: {formItemType}</p>
-                    <p>Required: {required}</p>
     
-                    <button onClick={removeItem({itemId})}>Remove Item</button>
+                    <button onClick={this.removeItem({itemId})}>Remove Item</button>
+                    <button onClick={() => this.setState({showProperties: !this.state.showProperties})}>Toggle Properties</button>
+                    
+                    <div style={{display: this.state.showProperties ? "block" : "none"}}>
+                        <hr />
+                        <p>Type: {formItemType}</p>
+                        <p>Required: {required}</p>
+                        <p>ID: {itemId}</p>
+                    </div>
                 </div>
             );
-
+        }
 
     }
-
-
-
-
-
 }
+export default FormItemLayout;
+
+
+
