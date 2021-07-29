@@ -2,18 +2,59 @@
     width: 40%;
     float: left;
     padding: 20px;
-    border: 2px solid red;
+    border: 2px solid #666;
+    background-color: #fff;
+    z-index: 1;
+    border-radius: 10px;
 }
 
 .UiSection{
     width: 53%;
     float: right;
     padding: 20px;
-    border: 2px solid green;
+    border: 2px solid #666;
+    background-color: #fff;
+    z-index: 1;
+    border-radius: 10px;
 
 }
 
 .main {
-    border: 3px solid #fff;
     padding: 20px;
+}
+
+.payloadBtn {
+    display: inline-block;
+    background-color: #777;
+    color: #fff;
+    line-height: 25px;
+    cursor: pointer;
+    padding: 10px 0;
+    margin: 15px 30px 15px 10px;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    text-align: center;
+    width: 25%;
+    font-size: 16px;
+    transition: border .2s, background-color .2s;
+}
+
+.payloadBtn:hover,
+.payloadBtn:active {
+    background-color: #595959;
+    border: 2px solid #595959;
+}
+
+input.payloadGenUI {
+    padding: 12px 0;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    border: 2px solid #666;
+    width: 90%;
+    font-size: 16px;
+    transition: border .2s, background-color .2s;
+}
+
+.btnGroupSection {
+    margin-top: 20px;
 }
