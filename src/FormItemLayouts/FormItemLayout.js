@@ -5,7 +5,7 @@ class FormItemLayout extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            showProperties: false
+            showProperties: false // this toggles the properties to be visible or not
         }
     }
 
@@ -78,11 +78,10 @@ class FormItemLayout extends React.Component{
                         {
                             ( this.props.data.items !== undefined && this.props.data.items.length > 0 ) ? this.props.data.items.map( (item, index) => {
                                 return  (
-                                    <div key={Math.random()}>
+                                    <div key={index+item}>
                                         <input type="radio" name="radioBtn" id={index+item} value={item}/>
                                         <label htmlFor={index+item}>{item}</label>
                                     </div>
-
                                 )
                                 }) : <p>Error loading items. Please delete this section and try again.</p>
                         }
@@ -109,7 +108,7 @@ class FormItemLayout extends React.Component{
                     {
                         ( this.props.data.items !== undefined && this.props.data.items.length > 0 ) ? this.props.data.items.map( (item, index) => {
                             return  (
-                                <div key={Math.random()}>
+                                <div key={index+item}>
                                     <input type="checkbox" name="checkbox" id={index+item} value={item}/>
                                     <label htmlFor={index+item}>{item}</label>
                                 </div>

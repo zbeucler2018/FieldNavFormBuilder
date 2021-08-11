@@ -6,7 +6,7 @@ export default function UiGenerator( data ){
 
     return (
         <div>
-            <h4>Created By: {data.author} at {data.company}</h4>
+            <h4>Created By: {data.createdBy} at {data.company}</h4>
             <h3>{data.formTitle}</h3>
             {
                 // get the payload array from the data prop object and iterate over the array

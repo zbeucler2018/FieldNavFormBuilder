@@ -10,15 +10,14 @@ const initialFormData = {
     required: ""
 }
 
-class PayloadGeneratorC extends React.Component {
+class PayloadGenerator extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             formData: initialFormData,
-            entireFormArray: [],
-            btnGroupArray: [],
-            btnItem: "",
-            inputType: "text"
+            entireFormArray: [], // this array will contain all the form elements for this particular form
+            btnGroupArray: [], // this array will contain all the checkboxes/radio buttons to be added to the form
+            btnItem: "", // this string will hold the value of the current checkbox/radio btn being added to the form
         }
     }
 
@@ -43,9 +42,9 @@ class PayloadGeneratorC extends React.Component {
         document.getElementsByName("label")[0].value = "";
         document.getElementsByName("formItemType")[0].value = "";
         document.getElementsByName("required")[0].value = "";
-      }
+    }
 
-
+    /****** RADIO BUTTON AND CHECKBOX METHODS ******/
     handleButtonChange = (e) => {
         e.preventDefault();
         this.setState({ btnItem: e.target.value })
@@ -55,23 +54,22 @@ class PayloadGeneratorC extends React.Component {
         let newArr = [...this.state.btnGroupArray, this.state.btnItem] // make new arr
         let newFormOBJ = {...this.state.formData} // make copy of form obj
         newFormOBJ.items = [...newArr] // add items field to form obj and populate it
-
         this.setState({
             formData: newFormOBJ,
             btnGroupArray: newArr,
             btnItem: ""
         })
     }
-
     removeButtonFromGroup = (e, index) => {
         e.preventDefault(); 
         let newArr = [...this.state.btnGroupArray]; // make a copy of the state array
         if (index > -1) {
             newArr.splice(index, 1); // remove the desired buttion from array
         }
-        this.setState({ btnGroupArray: newArr }) // upddate state array
+        this.setState({ btnGroupArray: newArr }) // update state array
     }
-
+    /************************************************/
+    /*
     loginValidation = () => {
         // if the title, selection, or required is "" then cannot continue
         if (this.state.formData.label === "" || this.state.formData.formItemType === "" || this.state.formData.required === ""){
@@ -79,12 +77,8 @@ class PayloadGeneratorC extends React.Component {
         } else {
             return true
         }
-
     }
-
-
-
-
+    */
 
     removeFromForm = (id) => {
          var newEntireFormArray = [...this.state.entireFormArray]; //create a new array so we dont modify state directly
@@ -93,50 +87,48 @@ class PayloadGeneratorC extends React.Component {
             entireFormArray: newEntireFormArray
          })
     } 
+
     addToForm = (e) => {
         e.preventDefault();
-        const validation = this.loginValidation();
-        if (validation) {
-            var newEntireFormArray = [...this.state.entireFormArray, this.state.formData] // add form data to end of payload
-            this.setState({ entireFormArray: newEntireFormArray })
-            this.cleanup(); // clear formdata and inputs
-        } else {
-            alert("Please fill in all fields (Section Heading, Section Type, and the required section)")
-        }
+        var newEntireFormArray = [...this.state.entireFormArray, this.state.formData] // add form data to end of payload
+        this.setState({ entireFormArray: newEntireFormArray })
+        this.cleanup(); // clear formdata and inputs
+    }
 
-    };
     resetForm = (e) => {
         e.preventDefault();
         this.setState({
             entireFormArray: []
         })      
     }
+
     submitForm = (e) => {
         e.preventDefault();
         if (this.state.entireFormArray.length > 0) {
-            this.props.addPayloadFunction(this.state.entireFormArray);
+
+            this.props.updatePayload(this.state.entireFormArray)
+            alert("Form Submited")
         }
         else {
             alert("Please add an item to the form before submitting")
         }
-        
     }
 
 
 
-      render() {
+    render() {
           return (
               <div className="main">
                   <div className="PayloadSection">
                         <label>
                             <h3>Section Heading</h3>
                                 <input 
-                                name="label" 
-                                type="text" 
-                                value={this.state.formData.label} 
-                                onChange={this.handleChange} 
-                                placeholder="Enter Heading Here" 
-                                className="payloadGenUI"
+                                    name="label" 
+                                    type="text" 
+                                    value={this.state.formData.label} 
+                                    onChange={this.handleChange} 
+                                    placeholder="Enter Heading Here" 
+                                    className="payloadGenUI"
                                 />
                         </label>
                         <br />
@@ -151,7 +143,7 @@ class PayloadGeneratorC extends React.Component {
                                 <option value="checkboxGroup">Checkbox Group</option>
                                 <option value="date">Date Selection</option>
                                 <option value="photo">Photo / File Selection</option>
-                                <option value="map">Map Display</option>
+                                <option value="map">Map and Location Section</option>
                             </select>
                         </label>
 
@@ -166,7 +158,7 @@ class PayloadGeneratorC extends React.Component {
                                         this.state.btnGroupArray.length > 0 || this.state.btnGroupArray !== undefined ? (
                                             this.state.btnGroupArray.map((ele, index) => {
                                                 return (
-                                                    <div style={{display: "flex"}} key={Math.random()}>
+                                                    <div style={{display: "flex"}} key={ele+index}>
                                                         <p style={{margin: 8}}> {ele} </p>
                                                         <button onClick={(event) => this.removeButtonFromGroup(event, index)}> x </button>
                                                     </div>
@@ -194,19 +186,21 @@ class PayloadGeneratorC extends React.Component {
 
                   </div>
                   
+                  
                   <div className="UiSection">
                       <UiGenerator 
-                        data={this.state.entireFormArray} 
+                        data={this.state.entireFormArray}
                         remove={this.removeFromForm} 
                         formTitle={this.props.formTitle}
-                        author={this.props.author}
+                        createdBy={this.props.createdBy}
                         company={this.props.company}
                     />
                 </div>
+
+
               </div>
           )
       }
 
 }
-
-export default PayloadGeneratorC;
+export default PayloadGenerator;

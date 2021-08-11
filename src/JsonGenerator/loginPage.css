@@ -1,31 +1,37 @@
-* {
-    box-sizing: border-box;
-}
+
 body {
-    background-color: #FF7F29;
+    background-color: grey;/*#E5E5E5;*/
     font-family: "Arial", sans-serif;
     padding: 50px;
 }
 .container{
     margin: 20px auto;
     padding: 10px;
-    width: 400px;
+    width: 600px !important;
     height: 400px;
-    background-color: rgb(253, 229, 229);
+    background-color: #FF7F29;
     border-radius: 5px;
+    text-align: center !important;
 }
  h1 {
     width: 70%;
     color: #777;
     font-size: 32px;
-    margin: 28px auto;
-    margin-bottom: 20px;
+    margin: 28px auto !important;
+    margin-bottom: 28px !important;
     text-align: center;
     /*padding-top: 40px;*/
 }
+.link {
+    color: #FFF;
+    text-decoration: none;
+}
+.link:hover{
+    color: #FFF;
+}
 .logins{
     /*padding: 15px;*/
-    text-align: center;
+    text-align: center !important;
 }
 input.field{
     padding: 12px 0;
@@ -33,7 +39,7 @@ input.field{
     border-radius: 3px;
     border: 2px solid transparent;
     text-align: center;
-    width: 90%;
+    width: 60%;
     font-size: 16px;
     transition: border .2s, background-color .2s;
 }
@@ -43,22 +49,4 @@ input.field{
 .logins .field:focus {
     border: 2px solid #777;
 }
-.logins .fieldBtn{
-    background-color: #777;
-    color: #fff;
-    line-height: 25px;
-    cursor: pointer;
-    padding: 12px 0;
-    margin-bottom: 10px;
-    border-radius: 3px;
-    border: 2px solid transparent;
-    text-align: center;
-    width: 90%;
-    font-size: 16px;
-    transition: border .2s, background-color .2s;
-}
-.logins .fieldBtn:hover,
-.logins .fieldBtn:active {
-    background-color: #595959;
-    border: 2px solid #595959;
-}
+

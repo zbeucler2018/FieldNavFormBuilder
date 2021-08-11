@@ -1,0 +1,36 @@
+body {
+    background-color: lightgray !important;
+}
+
+.main {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    overflow:auto;
+}
+
+.tableWrapper {
+    margin-top: 3%;
+    padding: 2%;
+    padding-bottom: 50px;
+    background-color: #FFF;
+    width: 100%;
+    border-radius: 5px !important;
+    border: 5px solid #FF7F29;
+}
+
+td {
+    padding: 15px
+}
+
+.link {
+    color: #FFF;
+    text-decoration: none;
+}
+
+.goBackText:hover:before{
+    color: #FFF;
+    content: "<- "
+}
