@@ -69,9 +69,34 @@ The code for this screen can be found in `src/JsonGenerator/PayloadGeneratorClas
 
 ## TODO
 - [ ] Add MapBox and map functionalities
+  - good [link](https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/)
 - [ ] Add an Edit screen where user can select a form in the DB and then view + edit that form 
 - [ ] Add validation to important sections where user input is required
 - [ ] Fix UI of the create screen to look like the figma 
 - [ ] Add a FieldNav Navbar
+
+## Installing from Docker
+1. Make sure that you have docker desktop installed
+2. Open Docker Desktop
+3. Open a terminal or command line and type this command `docker pull zbeucler/fieldnav-form-builder:latest`
+4. Once that has finished, run `docker images` to see if the `zbeucler/fieldnav-form-builder` has downloaded 
+5. If it has downloaded, then move to the `Running on your local machine` section
+
+## Running on your local machine
+1. Open Docker Desktop, go to `Images`
+2. Under your `Local` images, find the `zbeucler/fieldnav-form-builder` image
+3. hover over that image and press run
+4. In the run popup, open the `Optional Settings` drop down
+5. Under `Container Name` enter `form-builder`
+6. Then, under `Ports` find the `Local Host` section and enter `3000`
+7. Everything else if fine blank
+8. Press `Run`
+9. After running the container, go to your browser and go to `http://localhost:3000/` to see the form builder
+
+## Stopping the docker container
+1. To stop the container, go back to Docker Desktop
+2. Then go to `Containers / Images`
+3. Then find the `form-builder` image
+4. Hover over that container and press the square to stop the container
 
 ## Links / Resources

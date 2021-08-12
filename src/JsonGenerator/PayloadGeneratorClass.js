@@ -183,7 +183,6 @@ class PayloadGenerator extends React.Component {
                         <button onClick={this.addToForm} style={{marginLeft: 0}} className="payloadBtn">Add to Form</button>
                         <button onClick={this.resetForm} className="payloadBtn">Clear Form</button>
                         <button onClick={this.submitForm} className="payloadBtn">Finish Form</button>
-
                   </div>
                   
                   
