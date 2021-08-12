@@ -100,3 +100,5 @@ The code for this screen can be found in `src/JsonGenerator/PayloadGeneratorClas
 4. Hover over that container and press the square to stop the container
 
 ## Links / Resources
+- [Great docker tutorial](https://www.youtube.com/watch?v=iqqDU2crIEQ)
+- [Dockerhub Repo](https://hub.docker.com/repository/docker/zbeucler/fieldnav-form-builder/)
