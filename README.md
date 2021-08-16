@@ -97,6 +97,7 @@ The code for this screen can be found in `src/JsonGenerator/PayloadGeneratorClas
 1. Open your terminal
 2. Enter `docker images` to check if the correct `zbeucler/fieldnav-form-builder` container is installed
 3. If the container is installed, enter this command `docker run -i -p 3000:3000 --name formbuilder -d zbeucler/fieldnav-form-builder`
+4. Then, visit `http://localhost:3000/` in your browser to see the form builder
 
 ## Stopping the docker container
 1. To stop the container, go back to Docker Desktop
