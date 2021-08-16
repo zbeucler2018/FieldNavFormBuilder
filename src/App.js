@@ -15,7 +15,10 @@ import PayloadGenerator from './JsonGenerator/PayloadGeneratorClass';
 // MISC
 import clone from 'just-clone';
 import firebase from 'firebase';
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import firestore from './Firebase/firestoreinit'; // DO NOT UNCOMMENT THIS LINE, THE DB WILL NOT BE INITIALIZED
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 const initialFormData = {  
@@ -81,7 +84,7 @@ export default class App extends React.Component {
     const formRef = db.collection("Forms").add({
       formMetaData
     })
-    this._restartForm();
+    this.restartForm();
   }
   /*******************/
 
@@ -129,47 +132,5 @@ export default class App extends React.Component {
   
       </div>
     );
-
   }
-
 }
-
-
-
-/*
-import MetaDataGenerator from './JsonGenerator/MetaDataGenerator';
-import FormSelectionScreen from './FormSelectScreen/FormSelection';
-import PayloadGenerator from './JsonGenerator/PayloadGeneratorClass';
-import FieldNavNavbar from './Navbar/Navbar';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-
-
-function App() {
-  return (
-    <div>
-     <div>
-     <Router>
-         <Switch>
-           <Route exact path="/">
-             <MetaDataGenerator />
-           </Route>
-           <Route exact path="/Selection">
-             <FormSelectionScreen />
-           </Route>
-           <Route exact path="/Newform">
-             <PayloadGenerator />
-           </Route>
-         </Switch>
-     </Router>
-     </div>
-
-   </div>
- );
-}
-
-export default App;
-*/

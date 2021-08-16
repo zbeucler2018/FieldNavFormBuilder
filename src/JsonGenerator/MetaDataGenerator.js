@@ -61,12 +61,11 @@ export default class MetaDataGenerator extends React.Component {
                         className="field" 
                     />              
                 </div>
-                <Button onClick={this.handleSubmit} color="secondary" >
-                    <Link className="link" to={{
-                        pathname: "/Selection",
-                    }}>Login</Link>
-                </Button>
-                
+                <Link className="link" to="/Selection">
+                    <Button onClick={this.handleSubmit} color="secondary">
+                        Login
+                    </Button>
+                </Link>                
             </div>
         )
     }

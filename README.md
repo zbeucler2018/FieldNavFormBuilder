@@ -78,11 +78,11 @@ The code for this screen can be found in `src/JsonGenerator/PayloadGeneratorClas
 ## Installing from Docker
 1. Make sure that you have docker desktop installed
 2. Open Docker Desktop
-3. Open a terminal or command line and type this command `docker pull zbeucler/fieldnav-form-builder:latest`
+3. Open a terminal or command line and type this command `docker pull zbeucler/fieldnav-form-builder:amd64` (use `docker pull zbeucler/fieldnav-form-builder:latest` if you are on an M1 mac)
 4. Once that has finished, run `docker images` to see if the `zbeucler/fieldnav-form-builder` has downloaded 
 5. If it has downloaded, then move to the `Running on your local machine` section
 
-## Running on your local machine
+## Running on your local machine with Docker Desktop
 1. Open Docker Desktop, go to `Images`
 2. Under your `Local` images, find the `zbeucler/fieldnav-form-builder` image
 3. hover over that image and press run
@@ -92,6 +92,11 @@ The code for this screen can be found in `src/JsonGenerator/PayloadGeneratorClas
 7. Everything else if fine blank
 8. Press `Run`
 9. After running the container, go to your browser and go to `http://localhost:3000/` to see the form builder
+
+## Running on your local machine with Docker CLI
+1. Open your terminal
+2. Enter `docker images` to check if the correct `zbeucler/fieldnav-form-builder` container is installed
+3. If the container is installed, enter this command `docker run -i -p 3000:3000 --name formbuilder -d zbeucler/fieldnav-form-builder`
 
 ## Stopping the docker container
 1. To stop the container, go back to Docker Desktop
