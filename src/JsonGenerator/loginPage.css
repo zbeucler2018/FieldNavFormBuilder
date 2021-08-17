@@ -1,10 +1,10 @@
 
 body {
-    background-color: grey;/*#E5E5E5;*/
+    background-color: grey;   /*#E5E5E5;*/
     font-family: "Arial", sans-serif;
     padding: 50px;
 }
-.container{
+.container {
     margin: 20px auto;
     padding: 10px;
     width: 600px !important;
@@ -20,7 +20,6 @@ body {
     margin: 28px auto !important;
     margin-bottom: 28px !important;
     text-align: center;
-    /*padding-top: 40px;*/
 }
 .link {
     color: #FFF;
@@ -30,7 +29,6 @@ body {
     color: #FFF;
 }
 .logins{
-    /*padding: 15px;*/
     text-align: center !important;
 }
 input.field{
@@ -45,6 +43,7 @@ input.field{
 }
 .logins .field{
     background-color: #ECF0F1;
+    margin-bottom: 5.5%;
 }
 .logins .field:focus {
     border: 2px solid #777;

@@ -3,7 +3,7 @@ import React from 'react';
 import './FormSelectionStyles.css'
 import firebase from 'firebase/app';
 import firestore from '../Firebase/firestoreinit';
-import { Table, Button } from 'reactstrap';
+import { Table, Button, ModalFooter, ModalBody, Modal, ModalHeader } from 'reactstrap';
 import { Link } from "react-router-dom";
 
 
@@ -14,7 +14,9 @@ class FormSelectionScreen extends React.Component{
         this.firestoreRef = firebase.firestore().collection('Forms');
         this.state = {
             formsArr: [],
+            formDocumentIDArray: [],
             isLoading: true,
+            modalOpen: false
         }
     }
 
@@ -23,11 +25,15 @@ class FormSelectionScreen extends React.Component{
     }
     componentWillUnmount(){
         this.unsubscribe();
+        this.setState({modalOpen: false});
     }
 
     getCollection = (querySnapshot) => {
-        const formsArr = [];
+        const formsArr = []; // contains all form info
+        const formDocumentIDArray = []; // contains all IDs of the documents
         querySnapshot.forEach( (res) => {
+            const documentID = res.id // get the ID of the given document in the DB
+            formDocumentIDArray.push(documentID); // update the array
             const { FormId, FormTitle, Company, CreatedBy, CreationDate, CreationTime, LastModified, LastModifiedBy, Payload } = res.data().formMetaData; // deconstruct the obj
             formsArr.push({
                 FormId: FormId,
@@ -43,8 +49,23 @@ class FormSelectionScreen extends React.Component{
         });
         this.setState({
             formsArr,
-            isLoading: false,
+            formDocumentIDArray: formDocumentIDArray,
+            isLoading: false
         }); 
+    }
+
+    deleteForm = index => async e => {
+        e.preventDefault();
+        let formID = this.state.formDocumentIDArray[index] // get the formID
+        const res = await this.firestoreRef.doc(formID).delete(); // delete the form from the DB
+    }
+
+    modalControl = e => {
+        e.preventDefault()
+        this.setState({modalOpen: !this.state.modalOpen})
+    }
+    handleModal = (e) => {
+        this.props.updateFormTitle(e.target.value)
     }
 
     render() {
@@ -69,22 +90,24 @@ class FormSelectionScreen extends React.Component{
                                     <th>Last Modification Date</th>
                                     <th>Creation Date</th>
                                     <th>Created By</th>
+                                    <th>Actions</th>
                                 </tr>
 
                             </thead>
 
                             
-                                {this.state.formsArr.length !== 0 ? this.state.formsArr.map( (form) => {
+                                {this.state.formsArr.length !== 0 ? this.state.formsArr.map( (form, index) => {
                                     const { FormTitle, LastModified, LastModifiedBy, CreationDate, CreatedBy, FormId} = form
                                     return (
                                         <tbody key={FormId}>
                                             <tr>
-                                                <td onClick={event => console.log(event)}>{FormTitle ? FormTitle : "Value not available" }</td>
+                                                <td>{FormTitle ? FormTitle : "Value not available" }</td>
                                                 <td>{form.LineOfBuisness ? form.LineOfBuisness : "Value not available" }</td>
                                                 <td>{LastModified ? LastModified : "Value not available" }</td>
                                                 <td>{LastModifiedBy ? LastModifiedBy : "Value not available" }</td>
                                                 <td>{CreationDate ? CreationDate : "Value not available" }</td>
                                                 <td>{CreatedBy ? CreatedBy : "Value not available" }</td> 
+                                                <td><button onClick={this.deleteForm(index)}>Delete Form</button></td>
                                             </tr>                               
                                         </tbody>
                                     )
@@ -92,11 +115,39 @@ class FormSelectionScreen extends React.Component{
                             }
                         </Table>
 
-                        <Button color="secondary" >
-                            <Link className="link" to={{
-                                pathname: "/Newform"
-                            }}>Create new form</Link>
+                        <Button onClick={this.modalControl}>
+                            Create New Form
                         </Button>
+
+                        <Modal isOpen={this.state.modalOpen} backdrop="static">
+                            <ModalHeader><h4>Create New Form</h4></ModalHeader>
+                            <ModalBody>
+                                <div>
+                                    <h5>Please Enter the name of the form below</h5>
+                                    <input 
+                                        name="formTitle"
+                                        onChange={this.handleModal}
+                                        value={this.props.formTitle} 
+                                    />
+                                </div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <div style={{display: 'block'}}>
+                                    <span style={{float: "left"}}>
+                                        <Button onClick={this.modalControl} color="secondary">
+                                            Exit
+                                        </Button>
+                                    </span>
+                                    <span style={{float:'right'}}>
+                                        <Link className="link" to="/Newform">
+                                            <Button color="secondary">
+                                                Continue
+                                            </Button>
+                                        </Link>
+                                    </span>
+                                </div>
+                            </ModalFooter>
+                        </Modal>
 
                     </div>
                     
@@ -107,3 +158,11 @@ class FormSelectionScreen extends React.Component{
 }
 
 export default FormSelectionScreen;
+
+/**
+ * <Button color="secondary" >
+                            <Link className="link" to={{
+                                pathname: "/Newform"
+                            }}>Create new form</Link>
+                        </Button>
+ */

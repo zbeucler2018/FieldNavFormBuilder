@@ -3,7 +3,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route
 } from "react-router-dom";
 
 // components
@@ -14,7 +14,7 @@ import PayloadGenerator from './JsonGenerator/PayloadGeneratorClass';
 
 // MISC
 import clone from 'just-clone';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import firestore from './Firebase/firestoreinit'; // DO NOT UNCOMMENT THIS LINE, THE DB WILL NOT BE INITIALIZED
@@ -40,6 +40,7 @@ export default class App extends React.Component {
       formMetaData: initialFormData
     }
   }
+  
 
   /* update metadata */
   updateFormTitle = (value) => {
@@ -57,19 +58,11 @@ export default class App extends React.Component {
     updated.CreatedBy = value
     this.setState({ formMetaData: updated })
   }
-  updateCreatedDate = (value) => {
+  updateMetaData = (values) => { // date, time, id
     let updated = clone(this.state.formMetaData)
-    updated.CreatedDate = value
-    this.setState({ formMetaData: updated })
-  }
-  updateCreatedTime = (value) => {
-    let updated = clone(this.state.formMetaData)
-    updated.CreatedTime = value
-    this.setState({ formMetaData: updated })
-  }
-  updateFormID = (value) => {
-    let updated = clone(this.state.formMetaData)
-    updated.FormId = value
+    updated.CreationDate = values[0]
+    updated.CreationTime = values[1]
+    updated.FormId = values[2]
     this.setState({ formMetaData: updated })
   }
   /*******************/
@@ -88,12 +81,11 @@ export default class App extends React.Component {
   }
   /*******************/
 
-
   restartForm = () => {
     this.setState({
-        formMetaData: initialFormData, // reset form data
+        formMetaData: initialFormData, // clear form data
     })
-}
+  }
 
 
   render(){
@@ -106,16 +98,17 @@ export default class App extends React.Component {
                 <MetaDataGenerator 
                   updateFormTitle={this.updateFormTitle}
                   updateCompany={this.updateCompany}
-                  updateCreatedDate={this.updateCreatedDate}
-                  updateCreatedTime={this.updateCreatedTime}
                   updateCreatedBy={this.updateCreatedBy}
-                  updateFormID={this.updateFormID}
                   formMetaData={this.state.formMetaData}
+                  updateMetaData={this.updateMetaData}
                 />
               </Route>
 
               <Route exact path="/Selection">
-                <FormSelectionScreen />
+                <FormSelectionScreen 
+                  formTitle={this.state.formMetaData.formTitle}
+                  updateFormTitle={this.updateFormTitle}
+                />
               </Route>
 
               <Route exact path="/Newform">
@@ -129,7 +122,6 @@ export default class App extends React.Component {
             </Switch>
         </Router>
         </div>
-  
       </div>
     );
   }

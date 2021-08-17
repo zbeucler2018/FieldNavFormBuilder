@@ -12,27 +12,23 @@ export default class MetaDataGenerator extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            metaDataFinished: false
+            metaDataFinished: false,
         }
+    }
+
+    componentWillUnmount(){
+        const formDate = new Date().toISOString().split("T")[0].replaceAll("-", "/") // get current system date
+        const formTime = new Date().toString().slice(16,57)
+        const formId = Math.random() // get random ID
+        const valuesArr = [formDate, formTime, formId]
+        this.props.updateMetaData(valuesArr)
     }
 
     handleChange = e => {
         if (e.target.name === "CreatedBy") { this.props.updateCreatedBy(e.target.value) }
         else if (e.target.name === "Company") { this.props.updateCompany(e.target.value) }
-        else if (e.target.name === "FormTitle") { this.props.updateFormTitle(e.target.value) }
     }
 
-    handleSubmit = async e => {
-        e.preventDefault();
-        const formDate = await new Date().toISOString().split("T")[0].replaceAll("-", "/") // get current system date
-        this.props.updateCreatedDate(formDate)
-        const formTime = await Date().slice(16,57)
-        this.props.updateCreatedTime(formTime)
-        const formId = Math.random() // get random ID
-        this.props.updateFormID(formId)
-    }
-
-    
 
     render() {
         return (
@@ -53,19 +49,12 @@ export default class MetaDataGenerator extends React.Component {
                         value={this.props.formMetaData.Company} 
                         className="field" 
                     />
-                    <input 
-                        name="FormTitle" 
-                        onChange={this.handleChange} 
-                        placeholder="Enter the title of the form here" 
-                        value={this.props.formMetaData.FormTitle} 
-                        className="field" 
-                    />              
                 </div>
                 <Link className="link" to="/Selection">
-                    <Button onClick={this.handleSubmit} color="secondary">
+                    <Button color="secondary">
                         Login
                     </Button>
-                </Link>                
+                </Link>
             </div>
         )
     }

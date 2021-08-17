@@ -1,6 +1,7 @@
 import React from 'react';
 import './JsonGenerator.css';
 import UiGenerator from '../UiGenerator/UiGenerator'
+import { Redirect } from 'react-router-dom';
 
 const initialFormData = {
     formItemType: "",
@@ -18,6 +19,7 @@ class PayloadGenerator extends React.Component {
             entireFormArray: [], // this array will contain all the form elements for this particular form
             btnGroupArray: [], // this array will contain all the checkboxes/radio buttons to be added to the form
             btnItem: "", // this string will hold the value of the current checkbox/radio btn being added to the form
+            sendBackToLogin: false, // when true, user sent to login screen
         }
     }
 
@@ -105,9 +107,9 @@ class PayloadGenerator extends React.Component {
     submitForm = (e) => {
         e.preventDefault();
         if (this.state.entireFormArray.length > 0) {
-
-            this.props.updatePayload(this.state.entireFormArray)
-            alert("Form Submited")
+            this.props.updatePayload(this.state.entireFormArray);
+            alert("Form Submited");
+            this.setState({sendBackToLogin: true}) // sends user back to login screen
         }
         else {
             alert("Please add an item to the form before submitting")
@@ -117,89 +119,91 @@ class PayloadGenerator extends React.Component {
 
 
     render() {
-          return (
-              <div className="main">
-                  <div className="PayloadSection">
-                        <label>
-                            <h3>Section Heading</h3>
-                                <input 
-                                    name="label" 
-                                    type="text" 
-                                    value={this.state.formData.label} 
-                                    onChange={this.handleChange} 
-                                    placeholder="Enter Heading Here" 
-                                    className="payloadGenUI"
-                                />
-                        </label>
-                        <br />
-                        <label>
-                            <h3>Section Type</h3>
-                            <select name="formItemType" onChange={this.handleChange} value={this.state.formData.formItemType} >
-                                <option value="">N/A</option>
-                                <option value="lgText">Large Text Box</option>
-                                <option value="text">Small Text Box (AlphaNumerical)</option>
-                                <option value="number">Small Text Box (Numerical)</option>
-                                <option value="radioBtnGroup">Radio Button Group</option>
-                                <option value="checkboxGroup">Checkbox Group</option>
-                                <option value="date">Date Selection</option>
-                                <option value="photo">Photo / File Selection</option>
-                                <option value="map">Map and Location Section</option>
-                            </select>
-                        </label>
 
-                        {
-                            (this.state.formData.formItemType === "radioBtnGroup" || this.state.formData.formItemType === "checkboxGroup") &&
-                                <div className="btnGroupSection">
-                                    <h4>What items would you like to add?</h4>
-                                    <input id="item" type="text" name="btnGroupInput" value={this.state.btnItem} onChange={this.handleButtonChange} />
-                                    <button onClick={this.handleButtonClick}> click </button>
-
-                                    {
-                                        this.state.btnGroupArray.length > 0 || this.state.btnGroupArray !== undefined ? (
-                                            this.state.btnGroupArray.map((ele, index) => {
-                                                return (
-                                                    <div style={{display: "flex"}} key={ele+index}>
-                                                        <p style={{margin: 8}}> {ele} </p>
-                                                        <button onClick={(event) => this.removeButtonFromGroup(event, index)}> x </button>
-                                                    </div>
-                                                );
-                                            })
-                                        ) :  <p>No items yet</p>
-                                    }
-                                </div>
-                        }
-
-                        <div>
+        if (this.state.sendBackToLogin){
+            return <Redirect to="/" />
+        } else {
+            return (
+                <div className="main">
+                    <div className="PayloadSection">
                             <label>
-                                <h3>Make this section required?</h3>
-                                <select name="required" onChange={this.handleChange} value={this.state.formData.required} >
+                                <h3>Section Heading</h3>
+                                    <input 
+                                        name="label" 
+                                        type="text" 
+                                        value={this.state.formData.label} 
+                                        onChange={this.handleChange} 
+                                        placeholder="Enter Heading Here" 
+                                        className="payloadGenUI"
+                                    />
+                            </label>
+                            <br />
+                            <label>
+                                <h3>Section Type</h3>
+                                <select name="formItemType" onChange={this.handleChange} value={this.state.formData.formItemType} >
                                     <option value="">N/A</option>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
+                                    <option value="lgText">Large Text Box</option>
+                                    <option value="text">Small Text Box (AlphaNumerical)</option>
+                                    <option value="number">Small Text Box (Numerical)</option>
+                                    <option value="radioBtnGroup">Radio Button Group</option>
+                                    <option value="checkboxGroup">Checkbox Group</option>
+                                    <option value="date">Date Selection</option>
+                                    <option value="photo">Photo / File Selection</option>
+                                    <option value="map">Map and Location Section</option>
                                 </select>
                             </label>
-                        </div>
 
-                        <button onClick={this.addToForm} style={{marginLeft: 0}} className="payloadBtn">Add to Form</button>
-                        <button onClick={this.resetForm} className="payloadBtn">Clear Form</button>
-                        <button onClick={this.submitForm} className="payloadBtn">Finish Form</button>
-                  </div>
-                  
-                  
-                  <div className="UiSection">
-                      <UiGenerator 
-                        data={this.state.entireFormArray}
-                        remove={this.removeFromForm} 
-                        formTitle={this.props.formTitle}
-                        createdBy={this.props.createdBy}
-                        company={this.props.company}
-                    />
+                            {
+                                (this.state.formData.formItemType === "radioBtnGroup" || this.state.formData.formItemType === "checkboxGroup") &&
+                                    <div className="btnGroupSection">
+                                        <h4>What items would you like to add?</h4>
+                                        <input id="item" type="text" name="btnGroupInput" value={this.state.btnItem} onChange={this.handleButtonChange} />
+                                        <button onClick={this.handleButtonClick}> click </button>
+                                        {
+                                            this.state.btnGroupArray.length > 0 || this.state.btnGroupArray !== undefined ? (
+                                                this.state.btnGroupArray.map((ele, index) => {
+                                                    return (
+                                                        <div style={{display: "flex"}} key={ele+index}>
+                                                            <p style={{margin: 8}}> {ele} </p>
+                                                            <button onClick={(event) => this.removeButtonFromGroup(event, index)}> x </button>
+                                                        </div>
+                                                    );
+                                                })
+                                            ) :  <p>No items yet</p>
+                                        }
+                                    </div>
+                            }
+
+                            <div>
+                                <label>
+                                    <h3>Make this section required?</h3>
+                                    <select name="required" onChange={this.handleChange} value={this.state.formData.required} >
+                                        <option value="">N/A</option>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </label>
+                            </div>
+
+                            <button onClick={this.addToForm} style={{marginLeft: 0}} className="payloadBtn">Add to Form</button>
+                            <button onClick={this.resetForm} className="payloadBtn">Clear Form</button>
+                            <button onClick={this.submitForm} className="payloadBtn">Finish Form</button>
+                    </div>
+                    
+                    
+                    <div className="UiSection">
+                        <UiGenerator 
+                            data={this.state.entireFormArray}
+                            remove={this.removeFromForm} 
+                            formTitle={this.props.formTitle}
+                            createdBy={this.props.createdBy}
+                            company={this.props.company}
+                        />
+                    </div>
                 </div>
-
-
-              </div>
-          )
-      }
+            )
+        }
+    }
 
 }
 export default PayloadGenerator;
