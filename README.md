@@ -74,6 +74,11 @@ The code for this screen can be found in `src/JsonGenerator/PayloadGeneratorClas
 - [ ] Add validation to important sections where user input is required
 - [ ] Fix UI of the create screen to look like the figma 
 - [ ] Add a FieldNav Navbar
+- [ ] Figure out a better flow for the screen (specifically the redirect from the create screen to the login screen)
+  - the login screen is where the user's company, name, and date are saved when using the form
+  - Therefore, if we redirected from the create screen to the form selection screen, the user's name, company, and date would be blank
+  - Solution: the user's name, company, and date should be set when a form is created (like the title of the form)
+- [ ] Add a version control system 
 
 ## Installing from Docker
 1. Make sure that you have docker desktop installed
